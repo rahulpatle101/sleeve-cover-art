@@ -6,6 +6,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type 
 import { AnalogLightingProvider, Dial, Toggle, Meter, PushButton, PushToggle } from '../vendor/analog-ui/src/index.ts';
 import { DEFAULT_RECIPE, BOUNDS, TEXT_MAX, validateRecipe, type ArtworkRecipeV1 } from '../instrument/recipe.ts';
 import { remix } from '../instrument/remix.ts';
+import { namesFor } from '../instrument/names.ts';
 import { PressSetPicker } from '../instrument/PressSetPicker.tsx';
 import { ArtworkStage } from '../artwork/ArtworkStage.tsx';
 import { PALETTES, FAMILY_LABEL } from '../artwork/palettes.ts';
@@ -221,7 +222,7 @@ export function App() {
             <section className="ab-out" data-snap="0" aria-label="Proof and print">
               <p className="ab-status" role="status" aria-live="polite">{status}{statusFile && <span className="ab-status-file">{statusFile}</span>}</p>
               <div className="ab-actions">
-                <PushButton variant="chrome" height={56} aria-label="New Proof" onClick={() => setR(remix(r))}>New Proof</PushButton>
+                <PushButton variant="chrome" height={56} aria-label="New Proof" onClick={() => setR((x) => { const n = remix(x); return validateRecipe({ ...n, ...namesFor(n.seed) }); })}>New Proof</PushButton>
                 <PushToggle variant="chrome" height={56} indicatorTone="accent" pressed={soundOn} onPressedChange={toggleSound} aria-label="Sound">Sound</PushToggle>
                 <PushButton variant="black" height={56} className="ab-print" aria-label="Print Sleeve" aria-describedby="print-size" onClick={onPrint} aria-disabled={exporting}>
                   {exporting ? 'Printing…' : exported ? 'Printed ✓' : 'Print Sleeve'}

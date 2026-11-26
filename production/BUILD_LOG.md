@@ -555,3 +555,9 @@ Implemented per operator: two plates, Phase-driven registration, Density as pass
   - verify ALL PASS; build PASS.
 - **Bundle:** JS 647 kB (198 kB gzip), CSS 102 kB, as measured in the bench study.
 - **Repository:** `.gitignore` excludes the SkillUI extraction (proprietary fonts), reference images, evidence images, exports, builds and `node_modules`.
+
+## 2026-11-26 — Proof names on New Proof
+
+- PROPOSED — DIRECTION: `src/instrument/names.ts` holds 30 invented artist and 30 invented track names. `namesFor(seed)` picks a pair deterministically from the proof seed (on a separate stream from the art parameters).
+- New Proof deals a fresh pair into the Artist/Track fields. Typed names stay until the next New Proof. The first load still shows Night Office / Phase Garden. `remix()` itself still preserves the text; the names are applied in the App layer.
+- TESTED — PASS: `verify.ts` (names ≤ 48 chars, deterministic, slug-safe; 500/500 proofs change names) and `instrument-check.mjs` (17/17, including "New Proof deals new artist/track names"; the print filename uses the dealt names).

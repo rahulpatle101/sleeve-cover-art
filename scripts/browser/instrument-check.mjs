@@ -43,6 +43,8 @@ ok('Press set: arrow keys cycle all six sets and wrap; cover label follows', cyc
 const s1 = await b.ev(`document.querySelector('.ab-seed').textContent`);
 await b.ev(`[...document.querySelectorAll('button')].find(x => x.textContent.includes('New Proof')).click()`); await b.sleep(200);
 ok('New Proof remixes the real recipe (seed line changes)', s1 !== (await b.ev(`document.querySelector('.ab-seed').textContent`)));
+{ const nm = await b.ev(`[document.querySelector('#artist').value, document.querySelector('#track').value].join(' / ')`);
+  ok('New Proof deals new artist/track names', nm !== 'Night Office / Phase Garden' && !nm.startsWith(' /') && !nm.endsWith('/ '), nm); }
 // Print Sleeve: keyboard Enter → real 3000×3000 PNG, polite status, focus kept
 const dl = out + '/.dl'; rmSync(dl, { recursive: true, force: true }); mkdirSync(dl, { recursive: true });
 await b.send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: dl });

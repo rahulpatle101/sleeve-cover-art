@@ -8,6 +8,7 @@ import { PALETTES } from '../src/artwork/palettes.ts';
 import { pickFeature } from '../src/artwork/features.ts';
 import { FRAMES } from '../src/artwork/composition.ts';
 import { exportFilename } from '../src/export/filename.ts';
+import { namesFor, ARTISTS, TRACKS } from '../src/instrument/names.ts';
 
 let fails = 0;
 const check = (name: string, ok: boolean, detail = '') => {
@@ -39,6 +40,23 @@ check('remix density respects complexity cap', (() => { let q = DEFAULT_RECIPE; 
 check('remix never repeats the previous palette', (() => { let q = DEFAULT_RECIPE; for (let i = 0; i < 10000; i++) { const n = remix(q); if (n.palette === q.palette) return false; q = n; } return true; })());
 { let q: ArtworkRecipeV1 = { ...DEFAULT_RECIPE, mode: 'harmonic' }, bad = 0; for (let i = 0; i < 10000; i++) { q = remix(q); const g = (a: number, b: number): number => (b ? g(b, a % b) : a); const d = g(q.form, q.rhythm); if (Math.max(q.form / d, q.rhythm / d) > 6 || (q.form + q.rhythm) / d > 9) bad++; } check('harmonic remix only yields figure-like ratios (P+Q ≤ 9, terms ≤ 6)', bad === 0, (100 * bad / 10000).toFixed(2) + '% of 10k'); }
 check('remix preserves artist/track/mode', r.artist === DEFAULT_RECIPE.artist && r.track === DEFAULT_RECIPE.track && r.mode === DEFAULT_RECIPE.mode);
+
+// 2b. Proof names: deterministic, within TEXT_MAX, varied, slug-safe filenames
+{
+  const all = [...ARTISTS, ...TRACKS];
+  check('proof names ≤ 48 chars + clean', all.every((n) => n.length <= 48 && validateRecipe({ artist: n }).artist === n));
+  let same = true, changed = 0, pairs = new Set<string>(), q = DEFAULT_RECIPE;
+  for (let i = 0; i < 500; i++) {
+    const n = remix(q), a = namesFor(n.seed), b = namesFor(n.seed);
+    same &&= a.artist === b.artist && a.track === b.track;
+    if (a.artist !== q.artist || a.track !== q.track) changed++;
+    pairs.add(a.artist + '|' + a.track);
+    q = validateRecipe({ ...n, ...a });
+    if (!/^[a-z0-9-]+\.png$/.test(exportFilename(q))) same = false;
+  }
+  check('proof names deterministic + slug-safe', same);
+  check('proof names change on New Proof', changed >= 495 && pairs.size > 300, `${changed}/500 changed, ${pairs.size} pairs`);
+}
 const a1 = remix(DEFAULT_RECIPE), a2 = remix(DEFAULT_RECIPE);
 check('same recipe → same remix', JSON.stringify(a1) === JSON.stringify(a2), JSON.stringify(a1));
 check('same seed → same recipe', JSON.stringify(recipeFromSeed(DEFAULT_RECIPE, 12345)) === JSON.stringify(recipeFromSeed(DEFAULT_RECIPE, 12345)));
