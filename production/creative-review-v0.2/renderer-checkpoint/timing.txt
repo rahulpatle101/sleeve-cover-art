@@ -1,0 +1,26 @@
+fontsOk True
+case                              draft   full  r3000   enc    MB
+INK Newsprint H d2                   15     38    147    95  3.81
+INK Newsprint H d24                  10     49    146   109   4.8
+INK Carbon H d2                       6     35    113    92  3.45
+INK Carbon H d24                     10     52    125   100  4.14
+LIGHT Spectrum H d2                   6     22     89    72  2.51
+LIGHT Spectrum H d24                 10     28     45   101  4.34
+LIGHT Horizon H d2                   22     34     51   168  7.94
+LIGHT Horizon H d24                  25     42     70   186  8.86
+MATTER Full Sheet H d2                5    273   1203    86  3.43
+MATTER Full Sheet H d24               8    269   1210   116  5.56
+MATTER Macro Relief H d2              2    282   1254    78  2.95
+MATTER Macro Relief H d24             6    283   1270   124     6
+INK Newsprint R d2                    7     35    101    97  3.88
+INK Newsprint R d24                  12     53    142   111  4.95
+INK Carbon R d2                       6     33     96    93   3.5
+INK Carbon R d24                     12     54    136   101  4.21
+LIGHT Spectrum R d2                   6     18     78    70  2.36
+LIGHT Spectrum R d24                 11     26     53    95  3.82
+LIGHT Horizon R d2                   22     41     45   168  7.99
+LIGHT Horizon R d24                  25     41     50   179  8.64
+MATTER Full Sheet R d2                5    262   1215    82   3.2
+MATTER Full Sheet R d24               9    270   1206   103  4.58
+MATTER Macro Relief R d2              4    271   1255   100  4.32
+MATTER Macro Relief R d24             8    277   1269   137  6.85

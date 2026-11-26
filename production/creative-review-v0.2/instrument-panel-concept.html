@@ -1,0 +1,68 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+/* CONCEPT MOCK ONLY — v0.2 instrument panel composition. Not app code. */
+:root{--paper:#ECE9E2;--bed:#2A2A2D;--bed2:#1E1E21;--ink:#141416;--mute:#5A5A60;--line:#C9C6BE;--ver:#E2462A;--steel:#D9D7D1;}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.app{display:grid;grid-template-columns:690px 1fr;gap:32px;padding:20px 28px 24px;height:900px}
+.mast{grid-column:1/-1;display:flex;align-items:baseline;gap:14px;height:22px}.mast b{letter-spacing:.18em;font-size:18px}.mast span{color:var(--mute);font-size:13px}
+.mast .run{margin-left:auto;font:500 11px ui-monospace,Menlo,monospace;letter-spacing:.12em;color:var(--mute)}
+/* press bed */
+.bed{background:var(--bed);border-radius:3px;padding:26px 26px 18px;position:relative;box-shadow:inset 0 1px 0 #3a3a3e,0 10px 24px -14px rgba(0,0,0,.6)}
+.bed img{display:block;width:100%;aspect-ratio:1;box-shadow:0 2px 0 rgba(0,0,0,.35),0 14px 30px -12px rgba(0,0,0,.7)}
+.mark{position:absolute;width:18px;height:18px;border:1.2px solid #8d8b86;border-radius:50%}.mark::before,.mark::after{content:"";position:absolute;background:#8d8b86}
+.mark::before{left:-7px;right:-7px;top:50%;height:1.2px}.mark::after{top:-7px;bottom:-7px;left:50%;width:1.2px}
+.label{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px;color:#e9e7e1}
+.label div{border-bottom:1px solid #6b6a66;padding:4px 0 6px}.label small{display:block;font:600 10px/1 "Helvetica Neue";letter-spacing:.14em;color:#a3a19b;margin-bottom:6px}
+.label span{font-size:22px;font-weight:300}
+/* panel */
+.panel{display:grid;grid-template-rows:auto auto auto auto auto 1fr;gap:16px}
+.sec{border-top:1px solid var(--ink);padding-top:10px}.sec h3{margin:0 0 12px;display:flex;justify-content:space-between;font:600 11px/1 "Helvetica Neue";letter-spacing:.16em}
+.sec h3 i{font-style:normal;font-weight:500;color:var(--mute);letter-spacing:.08em}
+.keys{display:grid;grid-template-columns:1fr 1fr;gap:8px}.key{height:50px;border:1.5px solid var(--ink);display:flex;align-items:center;gap:10px;padding:0 14px;font-weight:600;background:#f6f5f1}
+.key.on{background:var(--ink);color:#f6f5f1}.key em{font-style:normal;font-weight:400;font-size:12px;opacity:.7;margin-left:auto}
+.ratio{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px}
+.knob{--s:84px;width:var(--s);height:var(--s);border-radius:50%;position:relative;
+ background:radial-gradient(circle at 50% 38%,#fbfaf7 0 38%,#e6e3dc 62%,#cfccc4 100%);box-shadow:0 2px 0 #b9b6ad,0 8px 14px -8px rgba(0,0,0,.45),inset 0 0 0 1px #b4b1a8}
+.knob::before{content:"";position:absolute;inset:-9px;border-radius:50%;background:repeating-conic-gradient(from -135deg,var(--ink) 0 .6deg,transparent .6deg 13.5deg);
+ -webkit-mask:radial-gradient(circle,transparent 58%,#000 59% 64%,transparent 65%);mask:radial-gradient(circle,transparent 58%,#000 59% 64%,transparent 65%);clip-path:polygon(50% 50%,0 100%,0 0,100% 0,100% 100%)}
+.knob .ptr{position:absolute;left:50%;top:9%;width:3px;height:30%;background:var(--ink);transform-origin:50% 140%;border-radius:2px}
+.knob.sm{--s:64px}
+.big{text-align:center}.big b{display:block;font:300 54px/1 "Helvetica Neue";font-variant-numeric:tabular-nums;letter-spacing:-.01em}.big small{font:600 10px "Helvetica Neue";letter-spacing:.16em;color:var(--mute)}
+.under{display:flex;justify-content:space-between;font:600 10px "Helvetica Neue";letter-spacing:.14em;color:var(--mute);margin-top:6px}
+.reg{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.wheel{width:150px;height:150px;border-radius:50%;position:relative;background:repeating-conic-gradient(#2b2b2e 0 2deg,#3a3a3e 2deg 4deg);box-shadow:0 3px 0 #111,0 14px 24px -10px rgba(0,0,0,.6)}
+.wheel::after{content:"";position:absolute;inset:16px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#46464b,#2a2a2d 70%);box-shadow:inset 0 1px 0 #5a5a60}
+.wheel .ptr{position:absolute;z-index:2;left:50%;top:20px;width:4px;height:36px;margin-left:-2px;background:var(--ver);transform-origin:50% 55px;transform:rotate(45deg);border-radius:2px}
+.readout b{font:300 54px/1 "Helvetica Neue";font-variant-numeric:tabular-nums}.readout p{margin:6px 0 10px;color:var(--mute);font-size:13px;max-width:230px}
+.regmeter{display:flex;align-items:center;gap:10px;font:600 10px "Helvetica Neue";letter-spacing:.14em;color:var(--mute)}
+.regmeter .x{position:relative;width:34px;height:34px}.regmeter .x .mark{border-color:var(--ink)}.regmeter .x .mark::before,.regmeter .x .mark::after{background:var(--ink)}
+.regmeter .x .mark.r{border-color:var(--ver);left:5px;top:5px}.regmeter .x .mark.r::before,.regmeter .x .mark.r::after{background:var(--ver)}
+.passes{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}.ladder{display:flex;gap:4px;align-items:flex-end;height:34px}.ladder i{width:7px;background:var(--ink);opacity:.9}.ladder i.off{opacity:.15}
+.sets{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.set{border:1.5px solid transparent;padding:4px 4px 6px;text-align:center;font:500 11px "Helvetica Neue"}
+.set.on{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}.chip{height:40px;position:relative;margin-bottom:5px;border:1px solid rgba(0,0,0,.15)}
+.chip i{position:absolute;width:20px;height:20px;border-radius:50%;top:10px;mix-blend-mode:multiply}.chip i:first-child{left:9px}.chip i:last-child{left:21px}
+.actions{display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:10px;align-self:end}.btn{height:56px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;letter-spacing:.04em;background:#f6f5f1}
+.btn.print{background:var(--ink);color:#f6f5f1;letter-spacing:.12em}.btn .dot{width:10px;height:10px;border-radius:50%;border:1.5px solid currentColor}
+.ann{position:absolute;font:600 10px ui-monospace,Menlo,monospace;color:#fff;background:var(--ver);padding:3px 6px;letter-spacing:.06em}
+</style></head><body><div class="app">
+<div class="mast"><b>SLEEVE</b><span>Play your next album cover.</span><span class="run">PRESS 003 · PROOF 01 · SEED 01352905</span></div>
+<div class="bed"><span class="mark" style="left:5px;top:5px"></span><span class="mark" style="right:5px;top:5px"></span><span class="mark" style="left:5px;bottom:62px"></span><span class="mark" style="right:5px;bottom:62px"></span>
+<img src="cover.png"><div class="label"><div><small>ARTIST · SLEEVE LABEL</small><span>Mira Okafor</span></div><div><small>TRACK</small><span>Tidewater</span></div></div></div>
+<div class="panel">
+ <div class="sec"><h3>1 · PLATE <i>engine</i></h3><div class="keys"><div class="key on">▢ Harmonic<em>Lissajous</em></div><div class="key">◯ Radial<em>Rose</em></div></div></div>
+ <div class="sec"><h3>2 · RATIO <i>form : rhythm</i></h3><div class="ratio"><div><div class="knob"><span class="ptr" style="transform:rotate(-58deg)"></span></div><div class="under"><span>FORM</span></div></div>
+  <div class="big"><b>3 : 4</b><small>PLATE RATIO · PERFECT FOURTH</small></div><div><div class="knob"><span class="ptr" style="transform:rotate(-19deg)"></span></div><div class="under"><span>RHYTHM</span></div></div></div></div>
+ <div class="sec"><h3>3 · REGISTRATION <i>phase · signature control</i></h3><div class="reg"><div class="wheel"><span class="ptr"></span></div>
+  <div class="readout"><b>045°</b><p>Plate B offset from plate A. Detents lock at 0°, 90°, 180° and 270°, where the plates register.</p>
+  <div class="regmeter"><span class="x"><span class="mark" style="left:0;top:0"></span><span class="mark r"></span></span>OFF REGISTER · 0.6 MM</div></div></div></div>
+ <div class="sec"><h3>4 · PASSES <i>density</i></h3><div class="passes"><div class="knob sm"><span class="ptr" style="transform:rotate(-40deg)"></span></div>
+  <div><div class="ladder"><i style="height:34px"></i><i style="height:31px"></i><i style="height:28px"></i><i style="height:25px"></i><i style="height:22px"></i><i style="height:19px"></i><i style="height:16px"></i><i style="height:13px"></i><i style="height:10px"></i><i style="height:8px"></i><i class="off" style="height:6px"></i><i class="off" style="height:6px"></i><i class="off" style="height:6px"></i><i class="off" style="height:6px"></i></div>
+  <div class="under"><span>10 PASSES · INK THINS AS PASSES BUILD</span></div></div></div></div>
+ <div class="sec"><h3>5 · PRESS SET <i>paper + two inks + imposition</i></h3><div class="sets">
+  <div class="set on"><div class="chip" style="background:#ECE5D6"><i style="background:#E2462A"></i><i style="background:#1B1A1E"></i></div>Newsprint</div>
+  <div class="set"><div class="chip" style="background:#E8EBEE"><i style="background:#F5C02A"></i><i style="background:#1F3FBF"></i></div>Cobalt gate</div>
+  <div class="set"><div class="chip" style="background:#101113"><i style="background:#FF6B3D;mix-blend-mode:screen"></i><i style="background:#38C7DA;mix-blend-mode:screen"></i></div>Night run</div>
+  <div class="set"><div class="chip" style="background:#B5330E"><i style="background:#FFF4E6;mix-blend-mode:normal"></i><i style="background:#2A0E06"></i></div>Ember</div>
+  <div class="set"><div class="chip" style="background:#1F2A22"><i style="background:#E2B13C;mix-blend-mode:normal"></i><i style="background:#D8E5C9;mix-blend-mode:screen"></i></div>Moss</div>
+  <div class="set"><div class="chip" style="background:#D5DADF"><i style="background:#2B4FD8"></i><i style="background:#141416"></i></div>Chalk</div></div></div>
+ <div class="actions"><div class="btn">↻ New proof</div><div class="btn"><span class="dot"></span>Monitor</div><div class="btn print">PRINT SLEEVE</div></div>
+</div></div></body></html>

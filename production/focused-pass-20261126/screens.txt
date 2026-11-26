@@ -1,0 +1,6 @@
+phone-360 {"sw":360,"sh":1379}
+phone-390 {"sw":390,"sh":1407}
+tablet-768 {"sw":768,"sh":1681}
+desktop-1280 {"sw":1280,"sh":900}
+desktop-1440 {"sw":1440,"sh":900}
+desktop-1440-concept {"sw":1440,"sh":900}

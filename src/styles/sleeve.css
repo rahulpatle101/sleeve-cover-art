@@ -1,0 +1,232 @@
+/* SLEEVE v0.2 interface. Tactile controls from Analog UI (MIT, vendored at src/vendor/analog-ui) — PROPOSED inspiration, not
+   extraction evidence. Printed-circuit editorial sheet on a 48 px baseline grid (App.tsx snaps every rule onto it). */
+@import '../vendor/analog-ui/src/index.css';
+@source "../vendor/analog-ui/src";
+@source "../app";
+
+/* SLEEVE adaptation of the Analog UI tokens, scoped to the bench only. */
+.ab {
+  /* light, warm host theme (shadcn contract) */
+  --background: oklch(0.94 0.008 85);
+  --foreground: oklch(0.2 0.005 285);
+  --card: oklch(0.96 0.006 85);
+  --card-foreground: oklch(0.2 0.005 285);
+  --muted: oklch(0.88 0.008 85);
+  --muted-foreground: oklch(0.45 0.008 285);
+  --border: oklch(0.2 0.005 285 / 18%);
+  --primary: oklch(0.2 0.005 285);
+  --primary-foreground: oklch(0.97 0.006 85);
+  --ring: oklch(0.2 0.005 285);
+  /* colour only for active state, registration offset and family identity */
+  --accent: oklch(0.62 0.19 35); /* SLEEVE signal vermilion — active state */
+  --chart-1: oklch(0.62 0.19 35);
+  --chart-2: oklch(0.55 0.17 262); /* Light family */
+  --chart-4: oklch(0.72 0.11 80); /* Matter family */
+  /* finish intensity −35–50 % vs Analog defaults (bloom .70, foil .30, shadow .90, grain .36, bevel ×1) */
+  --analog-bloom-strength: 0.42;
+  --analog-foil-opacity: 0.18;
+  --analog-shadow-depth: 0.55;
+  --analog-grain-opacity: 0.22;
+  --analog-bevel-width: calc(var(--spacing) * 0.6);
+  /* warm off-white hardware for secondary controls (chrome variant recoloured) */
+  --analog-surface-metal-hi: oklch(0.985 0.006 85);
+  --analog-surface-metal-mid: oklch(0.93 0.01 85);
+  --analog-surface-metal-lo: oklch(0.82 0.012 85);
+  --analog-surface-panel: oklch(0.94 0.008 85);
+  --analog-surface-raised: oklch(0.96 0.006 85);
+  --analog-tone-neutral: oklch(0.9 0.018 85); /* restrained warm LCD glass */
+
+  --ink: oklch(0.2 0.005 285);
+  --ink-2: oklch(0.45 0.008 285);
+  --trace: oklch(0.2 0.005 285 / 0.22);
+  --signal: oklch(0.62 0.19 35);
+  font-family: 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  color: var(--ink);
+  background:
+    linear-gradient(oklch(0.2 0.005 285 / 0.07) 1px, transparent 1px) 0 0 / 100% 48px,
+    oklch(0.94 0.008 85);
+  background-blend-mode: normal;
+  min-height: 100vh;
+}
+.ab * { box-sizing: border-box; }
+.ab .mono { font-family: 'SF Mono', ui-monospace, Menlo, monospace; }
+
+/* --- Printed circuit editorial sheet: asymmetric 12-col grid, traces + reference designators --- */
+.ab-sheet { grid-auto-flow: row dense; max-width: 1440px; margin: 0 auto; padding: 28px clamp(14px, 3vw, 40px) 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(12px, 2vw, 28px); row-gap: 28px; }
+.ab-mast { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; border-bottom: 1.5px solid var(--ink); padding-bottom: 14px; }
+.ab-mast h1 { margin: 0; font-size: 19px; letter-spacing: 0.22em; }
+.ab-mast .tag { font-size: 12px; letter-spacing: 0.14em; color: var(--ink-2); text-transform: uppercase; }
+.ab-mast .proposed { margin-left: auto; font-size: 11px; letter-spacing: 0.1em; color: var(--ink-2); text-transform: uppercase; }
+
+.ab-cover { grid-column: 1 / span 5; grid-row: span 2; align-self: start; position: sticky; top: 16px; }
+.ab-cover .stage { width: 100%; aspect-ratio: 1; box-shadow: 0 18px 32px -22px rgba(20, 20, 22, 0.55); }
+.ab-cover .stage-canvas { display: block; width: 100%; height: 100%; }
+.ab-cover figcaption { margin-top: 10px; font-size: 11px; letter-spacing: 0.12em; color: var(--ink-2); text-transform: uppercase; display: flex; justify-content: space-between; }
+
+/* module = annotated node on the printed sheet (no boxed panels) */
+.ab-mod { position: relative; padding-top: 22px; }
+.ab-mod::before { content: ''; position: absolute; left: 0; right: 0; top: 7px; height: 1px; background: var(--trace); }
+.ab-mod::after { content: ''; position: absolute; left: -4px; top: 3px; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--ink); background: oklch(0.94 0.008 85); }
+.ab-ref { position: absolute; top: -2px; left: 14px; padding: 0 6px; background: oklch(0.94 0.008 85); font: 600 11px/18px 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+.ab-ref em { font-style: normal; color: var(--ink-2); font-weight: 400; }
+.ab-note { font: 11px/1.4 'SF Mono', ui-monospace, Menlo, monospace; color: var(--ink-2); letter-spacing: 0.04em; }
+
+.ab-ratio { grid-column: 6 / span 7; }
+.ab-reg { grid-column: 7 / span 6; }
+.ab-passes { grid-column: 6 / span 4; }
+.ab-engine { grid-column: 10 / span 3; }
+.ab-out { grid-column: 6 / span 7; }
+
+.ab-ratio-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; }
+.ab-numeral { font-weight: 300; font-variant-numeric: tabular-nums; line-height: 0.9; letter-spacing: -0.02em; }
+.ab-ratio .ab-numeral { font-size: clamp(64px, 9vw, 120px); text-align: center; }
+.ab-reg-row { display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 3vw, 40px); align-items: center; }
+.ab-reg .ab-numeral { font-size: clamp(84px, 11vw, 168px); }
+.ab-state { display: inline-flex; align-items: center; gap: 10px; margin-top: 12px; font: 600 12px/1 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; }
+.ab-state i { width: 10px; height: 10px; border-radius: 50%; background: var(--ink-2); }
+.ab-state.off i { background: var(--signal); box-shadow: 0 0 0 3px oklch(0.62 0.19 35 / 0.18); }
+
+/* dial wrapper: native range on top for keyboard/AT; Analog Dial = visual + pointer surface */
+.ab-dial { position: relative; display: grid; justify-items: center; gap: 8px; }
+.ab-dial-hit { position: relative; border-radius: 50%; }
+.ab-native { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; pointer-events: none; }
+.ab-dial-hit:has(.ab-native:focus-visible) { outline: 3px solid var(--ink); outline-offset: 6px; box-shadow: 0 0 0 9px oklch(0.94 0.008 85); }
+.ab-dial label { font: 600 11px/1 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+.ab-detents { position: absolute; inset: -14px; pointer-events: none; }
+
+.ab-passes-row { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+.ab-passes .ab-numeral { font-size: 56px; }
+
+/* engine rocker: visual rocker (inert) under two native radios */
+.ab-rocker { position: relative; display: inline-grid; }
+.ab-rocker-radios { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; }
+.ab-rocker-radios label { position: relative; cursor: pointer; min-width: 44px; min-height: 44px; }
+.ab-rocker-radios input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.ab-rocker:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 6px; }
+.ab-engine-legend { display: flex; justify-content: space-between; gap: 18px; margin-top: 10px; font: 600 12px/1 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+.ab-engine-legend .on { color: var(--ink); } .ab-engine-legend .off { color: var(--ink-2); font-weight: 400; }
+
+.ab-out-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: end; }
+.ab-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.ab-btn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; font: 700 14px/1 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; border: 1.5px solid var(--ink); background: oklch(0.97 0.006 85); color: var(--ink); cursor: pointer; }
+.ab-btn.primary { background: var(--ink); color: oklch(0.97 0.006 85); padding: 0 26px; letter-spacing: 0.16em; }
+.ab-btn:focus-visible, .ab-actions :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.ab-status { min-height: 1.4em; font-size: 13px; }
+
+/* family identification (colour only here, always with text) */
+.ab-family { display: inline-flex; gap: 6px; align-items: center; font: 600 11px/1 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+.ab-family i { width: 10px; height: 10px; }
+
+@media (width < 900px) {
+  .ab-sheet { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .ab-cover { grid-column: 1 / -1; position: static; }
+  .ab-ratio, .ab-reg, .ab-passes, .ab-engine, .ab-out { grid-column: 1 / -1; }
+  .ab-out { position: sticky; bottom: 0; z-index: 5; background: oklch(0.94 0.008 85); border-top: 1.5px solid var(--ink); padding: 10px 0 12px; }
+  .ab-out .ab-mod::before, .ab-out .ab-mod::after { display: none; }
+  .ab-out-row { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ab *, .ab *::before, .ab *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Analog re-declares material tokens on each variant element, so the SLEEVE hardware finishes are scoped there. */
+.ab [data-analog-variant='chrome'] {
+  --analog-surface-metal-hi: oklch(0.985 0.006 85);
+  --analog-surface-metal-mid: oklch(0.93 0.01 85);
+  --analog-surface-metal-lo: oklch(0.8 0.014 85);
+}
+.ab [data-analog-variant='black'] { --analog-control-foreground: oklch(0.96 0.006 85); }
+.ab [data-analog-variant='chrome'] { --analog-foil-opacity: 0.07; } /* warm off-white reads as enamel, not brushed chrome */
+/* Passes meter: ink level on a warm track — no traffic-light zones */
+.ab {
+  --analog-meter-zone-success: oklch(0.2 0.005 285); --analog-meter-zone-warning: oklch(0.2 0.005 285); --analog-meter-zone-destructive: oklch(0.2 0.005 285);
+  --analog-meter-zone-success-glow: transparent; --analog-meter-zone-warning-glow: transparent; --analog-meter-zone-destructive-glow: transparent;
+}
+.ab [data-slot='meter-track'] { background: oklch(0.86 0.01 85) !important; }
+.ab .ab-print, .ab .ab-print * { color: oklch(0.96 0.006 85) !important; }
+
+.ab .ab-signal-pointer { background: var(--signal) !important; border-color: transparent !important; box-shadow: none !important; } /* registration offset = the one signal colour */
+@media (width < 560px) {
+  .ab-reg-row { grid-template-columns: 1fr; justify-items: start; }
+  .ab-reg .ab-numeral { font-size: 88px; }
+  .ab-ratio .ab-numeral { font-size: 64px; }
+  .ab-actions { display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 8px; }
+}
+
+/* IN1–IN2: artist / track as large editorial text on the printed trace (under the cover, left column) */
+.ab-names { grid-column: 1 / span 5; }
+.ab-names-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.ab-field { display: grid; gap: 4px; min-width: 0; }
+.ab-field label { font: 600 11px/1.4 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+.ab-field input { font: 300 clamp(22px, 2.2vw, 30px)/1.2 'Helvetica Neue', Helvetica, Arial, sans-serif; color: var(--ink); background: transparent; border: 0; border-bottom: 1.5px solid var(--ink); border-radius: 0; min-height: 44px; padding: 0; width: 100%; min-width: 0; }
+.ab-field input::placeholder { color: var(--ink-2); }
+.ab-field input:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+@media (width < 900px) { .ab-names { grid-column: 1 / -1; } }
+
+/* ---- v2 layout: left = cover + seed + sleeve label; right = one calm control stack (≈10 % smaller) ---- */
+.ab-sheet { grid-auto-flow: row; row-gap: 24px; }
+.ab-vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ab-left { grid-column: 1 / span 5; display: grid; gap: 26px; align-content: start; position: sticky; top: 16px; }
+.ab-left .ab-cover { position: static; grid-column: auto; grid-row: auto; margin: 0; }
+.ab-left .ab-names { grid-column: auto; }
+.ab-seed { font: 500 11px/1 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.14em; color: var(--ink-2); }
+.ab-right { grid-column: 6 / span 7; display: grid; gap: 26px; align-content: start; }
+.ab-ref { font-size: 10px; }
+.ab-ratio-num { font-size: clamp(58px, 8.1vw, 108px); text-align: center; }
+.ab-colon { color: var(--ink-2); padding: 0 0.16em; }
+.ab-reg-row { grid-template-columns: auto 1fr; gap: clamp(16px, 2.6vw, 36px); }
+.ab-reg-num { font-size: clamp(76px, 10vw, 150px); }
+.ab-state { margin-top: 10px; }
+.ab-note { margin-top: 8px; }
+.ab-pair { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: start; }
+.ab-passes-row { grid-template-columns: auto 1fr; gap: 14px; }
+.ab-passes-read { display: grid; gap: 8px; }
+.ab-passes-num { font-size: 50px; }
+.ab-engine-row { display: flex; align-items: center; gap: 14px; font: 600 11px/1 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.12em; text-transform: uppercase; min-height: 64px; }
+.ab-engine-row .on { color: var(--ink); } .ab-engine-row .off { color: var(--ink-2); font-weight: 400; }
+.ab-out { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; border-top: 1.5px solid var(--ink); padding-top: 16px; position: static; }
+.ab-out .ab-status { margin: 0; font-size: 13px; color: var(--ink-2); }
+@media (width < 900px) {
+  .ab-left, .ab-right { grid-column: 1 / -1; position: static; }
+  .ab-pair { grid-template-columns: 1fr; }
+  .ab-out { position: sticky; bottom: 0; z-index: 5; background: oklch(0.94 0.008 85); grid-template-columns: 1fr; padding: 10px 0 12px; }
+}
+.ab-right > *, .ab-left > * { grid-column: 1 / -1; } /* reset placements from the v1 sheet layout */
+.ab-reg-row { margin-top: 16px; } /* clear the top detent tick from the section label */
+@media (width < 560px) { .ab-state { font-size: 11px; letter-spacing: 0.06em; } .ab-reg-num { font-size: 68px; } }
+
+/* Baseline grid: the ruling starts at the top of .ab; Bench.tsx snaps every rule onto it (GRID = 48). */
+.ab { background: linear-gradient(oklch(0.2 0.005 285 / 0.07) 1px, transparent 1px) 0 0 / 100% 48px, oklch(0.94 0.008 85) !important; }
+.ab-sheet { padding-top: 0; row-gap: 0; }
+.ab-left, .ab-right { gap: 0; }
+.ab-left > * + *, .ab-right > * + * { margin-top: 0; }
+.ab-mast { padding-top: 24px; }
+.ab-nw { white-space: nowrap; }
+.ab-state { flex-wrap: wrap; row-gap: 4px; }
+
+/* ---- Press set (P1): six square swatch tiles, Ink / Light / Matter ---- */
+.ab-press { border: 0; margin: 0; padding: 22px 0 0; min-width: 0; }
+.ab .press-sets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.ab .press-family { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.ab .press-family-name { font: 600 10px/1 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: 0.14em; color: var(--ink-2); }
+.ab .press-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ab .press-tile { position: relative; display: grid; gap: 4px; padding: 3px; border: 1.5px solid transparent; cursor: pointer; min-width: 0; min-height: 44px; }
+.ab .press-tile input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.ab .swatch { position: relative; display: block; height: 30px; outline: 1px solid oklch(0.2 0.005 285 / 0.18); outline-offset: -1px; overflow: hidden; }
+.ab .dot { position: absolute; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; }
+.ab .dot-a { left: 8px; } .ab .dot-b { left: 19px; }
+.ab .swatch.is-macro .dot { width: 40px; height: 40px; margin-top: -20px; } .ab .swatch.is-macro .dot-a { left: -10px; } .ab .swatch.is-macro .dot-b { left: 18px; }
+.ab .swatch.is-horizon::after { content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 1.5px; background: #e9b868; }
+.ab .press-name { font-size: 12px; text-align: center; line-height: 1.2; overflow-wrap: anywhere; }
+.ab .press-tile:has(input:checked) { border-color: var(--ink); }
+.ab .press-tile:has(input:checked) .press-name { font-weight: 700; }
+.ab .press-tile:has(input:checked)::after { content: '✓' / ''; position: absolute; top: 5px; right: 5px; width: 14px; height: 14px; line-height: 14px; text-align: center; font-size: 10px; font-weight: 700; color: var(--ink); background: oklch(0.97 0.006 85); }
+.ab .press-tile:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; z-index: 1; }
+@container (width < 430px) { .ab .press-tiles { grid-template-columns: 1fr; } }
+.ab-right { container-type: inline-size; }
+.ab-status-file { display: block; margin-top: 2px; font: 11px/1.3 'SF Mono', ui-monospace, Menlo, monospace; overflow-wrap: anywhere; }
+/* the stage canvas */
+.ab .stage { width: 100%; aspect-ratio: 1; box-shadow: 0 18px 32px -22px rgba(20, 20, 22, 0.55); background: #1f1f22; }
+.ab .stage-canvas { display: block; width: 100%; height: 100%; }
+html { scroll-padding-bottom: 120px; } /* focus never lands under the sticky mobile action bar */
+body { margin: 0; }

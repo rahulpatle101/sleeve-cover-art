@@ -1,0 +1,71 @@
+TAB ORDER text:Artist | text:Track | radio:HarmonicLissajous | range:Form | range:Rhythm | range:Registration | range:Passes | radio:Newsprint | button:New Proof | button:Sound Off | button:Print Sleeve | text:Artist
+PASS  tab order follows the signal path 01→07 — text:Artist > text:Track > radio:HarmonicLissajous > range:Form > range:Rhythm > range:Registration > range:Passes > radio:Newsprint > button:New Proof > button:Sound Off > button:Print Sleeve
+PASS  artist / track typing reaches the recipe
+PASS  Form: Arrow ±1, Shift/Page ±2, Home/End, clamps; visible value tracks — 3→4,5,4,6,4,8,8,1 shown "1" label "Form"
+PASS  Rhythm: Arrow ±1, Shift/Page ±2, Home/End, clamps; visible value tracks — 4→5,6,5,7,5,8,8,1 shown "1" label "Rhythm"
+PASS  Registration: Arrow ±1, Shift/Page ±15, Home/End, clamps; visible value tracks — 45→46,47,46,61,46,360,360,0 shown "000°" label "Registration"
+PASS  Passes: Arrow ±1, Shift/Page ±4, Home/End, clamps; visible value tracks — 10→11,12,11,15,11,24,24,1 shown "1 pass · ink builds, edges break up" label "Passes"
+PASS  Registration readout + valuetext report register state — {"v":45,"shown":"045°","vt":"45 degrees, off register","label":"Registration"}
+PASS  Registration at 90° says "In register" (text, not colour) — 90 degrees, in register
+PASS  Ratio reads as one relationship (central readout) with the reduced relation beneath — 2:4 / plays as 1 : 2 · octave
+PASS  Engine: Arrow selects Radial
+PASS  Engine: Arrow back to Harmonic
+PRESS SET cycle 1:Carbon | 2:Spectrum | 3:Horizon | 4:Full Sheet | 5:Macro Relief | 0:Newsprint
+PASS  Press Set: Arrow keys cycle all six sets and wrap — 1:Carbon 2:Spectrum 3:Horizon 4:Full Sheet 5:Macro Relief 0:Newsprint
+PASS  Press Set selection reaches the recipe + stage label
+PASS  Registration wheel drags (up = increase) and keeps focus — 90→150
+PASS  Passes drags — 1→8
+PASS  New Proof is deterministic across reloads (same chain as Remix) — 7bf706a0,9a3e097f,b6c508d2
+PASS  Sound toggles with aria-pressed + visible On/Off word, muted by default — true Sound On / false Sound Off
+PASS  Print Sleeve: keyboard Enter prints a 3000×3000 PNG, announces in the live region, keeps focus — sleeve-night-office-phase-garden-harmonic-b6c508d2.png 3000×3000 in 676 ms; during: "true Printing…"; status "Sleeve printed — 3000 × 3000 PNG.sleeve-night-office-phase-garden-harmonic-b6c508d2.png"
+PASS  status region is polite
+PASS  reduced motion honoured (media query active)
+
+AX TREE (filtered)
+  banner: ""
+  main: ""
+  heading: "SLEEVE" level=1
+  region: "Cover"
+  region: "Instrument"
+  region: "Proof and print"
+  group: "Artist and track"
+  heading: "Instrument" level=2
+  group: "Engine"
+  group: "Ratio, Form to Rhythm"
+  heading: "REGISTRATION" level=2
+  heading: "PASSES" level=2
+  group: "Press set"
+  status: ""
+  button: "New Proof"
+  button: "Sound" pressed=false
+  button: "PRINTED"
+  textbox: "Artist" value=Night Office
+  textbox: "Track" value=Phase Garden
+  heading: "RATIO" level=2
+  slider: "Registration" value=90 valuetext="90"
+  slider: "Passes" value=7 valuetext="7"
+  group: "Ink"
+  group: "Light"
+  group: "Matter"
+  heading: "ENGINE" level=2
+  radio: "Harmonic Lissajous" checked=true
+  radio: "Radial Rose" checked=false
+  slider: "Form" value=3 valuetext="3"
+  slider: "Rhythm" value=4 valuetext="4"
+  heading: "PRESS SET" level=2
+  radio: "Newsprint" checked=false
+  radio: "Carbon" checked=true
+  radio: "Spectrum" checked=false
+  radio: "Horizon" checked=false
+  radio: "Full Sheet" checked=false
+  radio: "Macro Relief" checked=false
+PASS  four named sliders: Form, Rhythm, Registration, Passes — Registration,Passes,Form,Rhythm
+PASS  names are natural case (CSS caps not leaked into accessible names) — region: "Cover" · region: "Instrument" · region: "Proof and print" · group: "Artist and track" · group: "Engine" · group: "Ratio, Form to Rhythm" · group: "Press set" · textbox: "Artist" value=Night Office · textbox: "Track" value=Phase Garden · group: "Ink" · group: "Light" · group: "Matter"
+PASS  six named Press Set radios + two Engine radios
+PASS  no unnamed buttons, sliders, radios or textboxes
+PASS  360px: no horizontal scroll, all targets ≥ 44 px, focus never under the sticky bar — {"sw":360,"small":[],"barTop":707,"barH":73,"regTop":742,"docH":1379,"hidden":[]}
+PASS  360px: action bar pinned to the viewport bottom on load; Registration head at 742px (viewport 780) — bar 707–780
+PASS  768px: no horizontal scroll, all targets ≥ 44 px, focus never under the sticky bar — {"sw":768,"small":[],"barTop":951,"barH":73,"regTop":1114,"docH":1681,"hidden":[]}
+PASS  1280px: no horizontal scroll, all targets ≥ 44 px, focus never under the sticky bar — {"sw":1280,"small":[],"barTop":796,"barH":72,"regTop":302,"docH":900,"hidden":[]}
+
+28 PASS, 0 FAIL ERRORS none

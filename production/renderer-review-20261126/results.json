@@ -1,0 +1,64 @@
+{
+  "fontsOk": true,
+  "treatmentCounts": {
+    "full-figure": 9,
+    "asymmetric-offset": 2,
+    "edge-bleed": 7,
+    "rotated-crop": 3,
+    "extreme-macro": 12,
+    "intersection-detail": 10,
+    "high-curvature-detail": 7
+  },
+  "cases": 600,
+  "deterministic": true,
+  "inkLayering": [
+    {
+      "size": 620,
+      "palette": 0,
+      "actualVsExpected": {
+        "channels": 0,
+        "max": 0
+      },
+      "actualVsWrongTitleZone": {
+        "channels": 107944,
+        "max": 209
+      }
+    },
+    {
+      "size": 620,
+      "palette": 1,
+      "actualVsExpected": {
+        "channels": 0,
+        "max": 0
+      },
+      "actualVsWrongTitleZone": {
+        "channels": 107995,
+        "max": 213
+      }
+    },
+    {
+      "size": 3000,
+      "palette": 0,
+      "actualVsExpected": {
+        "channels": 0,
+        "max": 0
+      },
+      "actualVsWrongTitleZone": {
+        "channels": 2316530,
+        "max": 209
+      }
+    },
+    {
+      "size": 3000,
+      "palette": 1,
+      "actualVsExpected": {
+        "channels": 0,
+        "max": 0
+      },
+      "actualVsWrongTitleZone": {
+        "channels": 2317101,
+        "max": 213
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><title>SLEEVE v0.2 — Lab review gallery (local)</title><style>
+body{margin:0;background:#1a1a1c;color:#e9e8e4;font:14px/1.45 -apple-system,"Helvetica Neue",Arial,sans-serif}
+header{position:sticky;top:0;background:#1a1a1c;border-bottom:1px solid #333;padding:12px 20px;z-index:2}header b{letter-spacing:.14em}header span{color:#9a9aa0;margin-left:12px}
+section{padding:18px 20px}h2{font-size:13px;letter-spacing:.16em;color:#bdbdc3;margin:18px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}
+figure{margin:0;background:#232326;padding:10px}figure img{width:100%;display:block;cursor:zoom-in;background:#111}
+figcaption{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:12px;color:#bdbdc3}figcaption a{color:#e9b36a}
+#z{position:fixed;inset:0;background:#0c0c0d;display:none;overflow:auto;z-index:9;cursor:zoom-out}#z img{display:block;margin:0 auto;max-width:none}
+#z .bar{position:fixed;top:0;left:0;right:0;background:rgba(12,12,13,.9);padding:8px 14px;font-size:12px;color:#bdbdc3}
+</style></head><body>
+<header><b>SLEEVE v0.2 · LAB REVIEW</b><span>Click an image to view it at 100 % (actual pixels); click again to close. "original" opens the raw file.</span></header>
+<div id="sections"></div><div id="z"><div class="bar" id="zbar"></div><img id="zimg"></div>
+<script>
+const groups = [
+ ['LAB 2 · SHEETS', 'lab2/out/', ['form-sheet.png', 'typography-sheet.png']],
+ ['LAB 2 · INTEGRATED COVERS (3000 × 3000)', 'lab2/out/', ['integrated-ink.png', 'integrated-light.png', 'integrated-matter.png']],
+ ['LAB 2 · TRUE 100 % CROPS', 'lab2/out/', ['crop-100pct-ink-contour.png', 'crop-100pct-ink-type-overprint.png', 'crop-100pct-ink-notation.png', 'crop-100pct-ink-density24.png', 'crop-100pct-light-band.png', 'crop-100pct-light-litname.png', 'crop-100pct-light-density24.png', 'crop-100pct-matter-relief.png', 'crop-100pct-matter-emboss.png', 'crop-100pct-matter-density24.png']],
+ ['MATTER · FINAL ALTERNATIVES', 'lab3/out/', ['matter-alt1-sheet.png', 'matter-alt2-sheet.png', 'matter-alt1-integrated.png', 'matter-alt2-integrated.png', 'matter-alt1-crop-100pct.png', 'matter-alt2-crop-100pct.png', 'matter-alt1-crop-100pct-type.png', 'matter-alt2-crop-100pct-type.png']],
+];
+const root = document.getElementById('sections');
+for (const [title, dir, files] of groups) { const s = document.createElement('section'); s.innerHTML = `<h2>${title}</h2><div class="grid"></div>`; const g = s.querySelector('.grid'); let any = false;
+  for (const f of files) { const fig = document.createElement('figure'); const img = new Image(); img.loading = 'lazy'; img.src = dir + f; img.alt = f;
+    img.onload = () => { fig.querySelector('.dim').textContent = `${img.naturalWidth} × ${img.naturalHeight}`; }; img.onerror = () => fig.remove();
+    img.onclick = () => { document.getElementById('zimg').src = dir + f; document.getElementById('zbar').textContent = `${f} · 100 % · scroll to pan · click to close`; document.getElementById('z').style.display = 'block'; };
+    fig.appendChild(img); fig.insertAdjacentHTML('beforeend', `<figcaption><span>${f} · <span class="dim"></span></span><a href="${dir + f}" target="_blank">original</a></figcaption>`); g.appendChild(fig); any = true; }
+  if (any) root.appendChild(s); }
+document.getElementById('z').onclick = () => { document.getElementById('z').style.display = 'none'; };
+</script></body></html>

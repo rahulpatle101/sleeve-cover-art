@@ -1,0 +1,26 @@
+// Before/after metric for the Harmonic Macro crop rule (pure; same 32 unseen cases as scripts/browser/v02-macro.mjs).
+// "Meaningful event in view" = a strong crossing (θ ≥ 45°) or a turn (radius ≤ 1/12 of the figure) inside the
+// clear relief area of the cover (x 0.08–0.92 S, y 0.08–0.80 S, i.e. not under the catalog or the foot type).
+import { validateRecipe, DEFAULT_RECIPE } from '../src/instrument/recipe.ts';
+import { remix, recipeFromSeed } from '../src/instrument/remix.ts';
+import { traces, boundingBox, MAX_SEGMENTS } from '../src/artwork/geometry.ts';
+import { placement, fitPlace } from '../src/artwork/composition.ts';
+import { PALETTES } from '../src/artwork/palettes.ts';
+import { structuralEvents, macroFocusPlace } from '../src/artwork/focus.ts';
+const cases = [];
+let r = recipeFromSeed({ ...DEFAULT_RECIPE, artist: 'Quiet Meridian', track: 'Lowland' }, 0x51de5eed);
+for (let i = 0; i < 24; i++) { r = remix(r); cases.push(validateRecipe({ ...r, mode: 'harmonic', palette: 5 })); }
+let s = 0x0dd1a1 >>> 0; const rnd = () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296);
+for (let i = 0; i < 8; i++) cases.push(validateRecipe({ ...DEFAULT_RECIPE, mode: 'harmonic', palette: 5, form: 1 + ((rnd() * 8) | 0), rhythm: 1 + ((rnd() * 8) | 0), phase: (rnd() * 361) | 0, density: 1 + ((rnd() * 24) | 0), seed: (rnd() * 2 ** 32) >>> 0 }));
+const S = 1000, inView = (x: number, y: number) => x >= 0.08 * S && x <= 0.92 * S && y >= 0.08 * S && y <= 0.8 * S;
+let okB = 0, okA = 0; const rows: string[] = [];
+cases.forEach((c, i) => {
+  const tr = traces(c, MAX_SEGMENTS)[0], box = boundingBox([tr]), ev = structuralEvents(tr, box, c.phase);
+  const strong = ev.filter((e) => (e.kind === 'cross' ? e.w >= 0.5 : true)); // cross w ≈ sin²θ·channel ≥ 0.5 ⇔ θ ≳ 45°
+  const count = (p: { scale: number; tx: number; ty: number }) => { const v = strong.filter((e) => inView(e.x * p.scale + p.tx, e.y * p.scale + p.ty)); return { cross: v.filter((e) => e.kind === 'cross').length, turn: v.filter((e) => e.kind === 'turn').length }; };
+  const before = count(fitPlace(box, S, placement(PALETTES[5], c))), after = count(macroFocusPlace(tr, box, c.phase, S) ?? fitPlace(box, S, placement(PALETTES[5], c)));
+  const b = before.cross + before.turn > 0, a = after.cross + after.turn > 0; okB += +b; okA += +a;
+  rows.push(`#${String(i + 1).padStart(2)} ${c.form}:${c.rhythm} ${String(c.phase).padStart(3)}° d${String(c.density).padStart(2)}  before ${before.cross}x ${before.turn}t ${b ? 'yes' : 'NO '}  →  after ${after.cross}x ${after.turn}t ${a ? 'yes' : 'NO '}`);
+});
+console.log(rows.join('\n'));
+console.log(`\nMeaningful structural event in view: before ${okB}/${cases.length}, after ${okA}/${cases.length}`);

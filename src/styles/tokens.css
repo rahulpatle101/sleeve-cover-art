@@ -1,0 +1,79 @@
+/* SLEEVE design tokens — the single source for every interface value.
+   Origin: research/DESIGN_DNA_TRANSFER.md (VERIFIED traits T1–T13) and production/DESIGN_SYSTEM_V02.md rev 2
+   (PROPOSED — DIRECTION, bound to instrument-panel-concept.png). Values are SLEEVE's own.
+   Browse them live: /library.html (dev server only). Cover artwork colours live in src/artwork/palettes.ts, not here. */
+:root {
+  /* Surface — the light-neutral instrument shell */
+  --surface-canvas: #edeae4; /* page + panel background */
+  --surface-ivory: #f7f6f2; /* inactive segments, secondary buttons, swatch check chip */
+
+  /* Text */
+  --text-primary: #141416; /* ink: body, values, strong rules, primary button */
+  --text-secondary: #5a5a60; /* labels, aliases, hints (6.3:1 on canvas) */
+  --text-on-dark: #f7f6f2; /* text on near-black fills */
+  --text-on-dark-muted: #bdbdc2; /* secondary text on near-black fills */
+
+  /* Signal — the one functional colour (Registration pointer + plate-B state crosshair only) */
+  --signal: #d9481c;
+
+  /* Cover chassis (dark frame around the artwork) */
+  --chassis-bg: #2a2a2d;
+  --chassis-stage: #1f1f22; /* behind the canvas before first paint */
+  --chassis-ink: #e8e6e0; /* artist / track values */
+  --chassis-muted: #a3a3a8; /* chassis labels */
+  --chassis-line: #6c6c71; /* field underline */
+  --chassis-placeholder: #8a8a8f;
+  --chassis-focus: #f3f1ea; /* focus ring on the dark chassis */
+  --crosshair: #8e8e93; /* corner registration marks */
+
+  /* Ivory calibrated knob */
+  --knob-face-hi: #ffffff;
+  --knob-face-mid: #f3f1ea;
+  --knob-face-lo: #e2ded3;
+  --knob-edge: rgba(20, 20, 22, 0.14);
+  --knob-tick: #77777c; /* minor ticks; major ticks use --text-primary */
+
+  /* Dark knurled Registration wheel */
+  --wheel-face-hi: #45454a;
+  --wheel-face-lo: #1c1c1f;
+  --wheel-rim: #262629;
+  --wheel-rim-active: #1d1d20; /* while dragging */
+  --wheel-knurl: #4b4b50;
+  --wheel-edge: #101012;
+
+  /* Passes meter + swatches */
+  --meter-off: #cfcdc6;
+  --swatch-edge: rgba(20, 20, 22, 0.18);
+  --swatch-horizon-line: #e9b868;
+
+  /* Shadows — physical depth only on knobs, wheel and the cover */
+  --shadow-chassis: 0 1px 0 rgba(20, 20, 22, 0.1), 0 18px 32px -20px rgba(20, 20, 22, 0.55);
+  --shadow-stage: 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-knob: drop-shadow(0 3px 2.5px rgba(20, 20, 22, 0.28));
+  --shadow-knob-pressed: drop-shadow(0 1px 1px rgba(20, 20, 22, 0.35));
+  --shadow-wheel: drop-shadow(0 6px 7px rgba(20, 20, 22, 0.32));
+  --shadow-wheel-pressed: drop-shadow(0 2px 2px rgba(20, 20, 22, 0.4));
+
+  /* Focus — always visible, on light and dark surfaces */
+  --focus-ring: #141416;
+  --focus-offset: #f7f6f2;
+
+  /* Size */
+  --target: 44px; /* minimum hit target */
+  --rule: 1.5px; /* strong section rule */
+
+  /* Type */
+  --font-ui: 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  --type-label: 12px; /* uppercase tracked labels */
+  --type-hint: 13px;
+  --type-body: 16px;
+  --tracking-label: 0.16em;
+
+  /* Space */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+}

@@ -1,0 +1,34 @@
+# 1 2:5 240° d 8  before 4x 0t yes  →  after 1x 2t yes
+# 2 2:8 135° d 5  before 0x 0t NO   →  after 0x 2t yes
+# 3 4:5 195° d 5  before 3x 0t yes  →  after 4x 0t yes
+# 4 3:5 165° d 5  before 3x 0t yes  →  after 3x 1t yes
+# 5 5:3 270° d 5  before 2x 0t yes  →  after 3x 1t yes
+# 6 4:3 360° d 4  before 0x 0t NO   →  after 2x 1t yes
+# 7 2:3 270° d 7  before 0x 0t NO   →  after 4x 0t yes
+# 8 2:4 360° d 7  before 1x 0t yes  →  after 1x 0t yes
+# 9 2:5 315° d10  before 3x 0t yes  →  after 2x 2t yes
+#10 2:3 165° d 5  before 1x 0t yes  →  after 4x 0t yes
+#11 3:5 240° d 6  before 3x 0t yes  →  after 3x 1t yes
+#12 3:4 150° d10  before 3x 0t yes  →  after 4x 0t yes
+#13 5:3 270° d 6  before 2x 0t yes  →  after 3x 1t yes
+#14 3:2 255° d 9  before 1x 0t yes  →  after 1x 1t yes
+#15 6:2 135° d 4  before 0x 0t NO   →  after 0x 1t yes
+#16 3:6 255° d10  before 0x 0t NO   →  after 0x 1t yes
+#17 2:8 150° d 5  before 0x 0t NO   →  after 1x 2t yes
+#18 3:4 315° d 6  before 3x 0t yes  →  after 3x 1t yes
+#19 2:6 195° d 5  before 0x 0t NO   →  after 0x 1t yes
+#20 2:4  75° d 4  before 0x 0t NO   →  after 0x 1t yes
+#21 5:4 360° d 7  before 5x 0t yes  →  after 3x 1t yes
+#22 2:6  30° d14  before 0x 0t NO   →  after 0x 1t yes
+#23 4:2  45° d17  before 0x 0t NO   →  after 0x 1t yes
+#24 6:2 225° d11  before 0x 0t NO   →  after 0x 1t yes
+#25 2:5  81° d22  before 2x 0t yes  →  after 2x 2t yes
+#26 3:6 359° d18  before 1x 0t yes  →  after 1x 0t yes
+#27 6:2 139° d 9  before 0x 0t NO   →  after 0x 1t yes
+#28 6:2  77° d 3  before 0x 0t NO   →  after 0x 1t yes
+#29 6:8  88° d16  before 3x 0t yes  →  after 2x 1t yes
+#30 8:3  74° d 3  before 2x 0t yes  →  after 3x 4t yes
+#31 6:8 320° d10  before 3x 0t yes  →  after 3x 1t yes
+#32 5:3 280° d 1  before 2x 0t yes  →  after 2x 1t yes
+
+Meaningful structural event in view: before 19/32, after 32/32

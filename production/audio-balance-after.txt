@@ -1,0 +1,53 @@
+h default            rms 0.0253  peak 0.087  bright  278 Hz  loud  -1.3 dB
+h min 1:1 d1 p1      rms 0.0270  peak 0.096  bright  313 Hz  loud  -0.2 dB
+h max 8:8 d24 p6     rms 0.0250  peak 0.085  bright  381 Hz  loud   0.0 dB
+h 1:8 d24 p6         rms 0.0250  peak 0.085  bright  381 Hz  loud   0.0 dB
+h 8:1 d24 p6         rms 0.0250  peak 0.085  bright  381 Hz  loud   0.0 dB
+h 7:8 d24 p6         rms 0.0250  peak 0.086  bright  357 Hz  loud  -0.3 dB
+h 7:8 d1 p1          rms 0.0268  peak 0.095  bright  295 Hz  loud  -0.5 dB
+h palette 1          rms 0.0253  peak 0.087  bright  278 Hz  loud  -1.3 dB
+h palette 2          rms 0.0253  peak 0.087  bright  288 Hz  loud  -1.1 dB
+h palette 3          rms 0.0254  peak 0.087  bright  299 Hz  loud  -0.9 dB
+h palette 4          rms 0.0254  peak 0.088  bright  311 Hz  loud  -0.7 dB
+h palette 5          rms 0.0254  peak 0.087  bright  324 Hz  loud  -0.6 dB
+h palette 6          rms 0.0255  peak 0.087  bright  338 Hz  loud  -0.4 dB
+h remix 1            rms 0.0257  peak 0.081  bright  296 Hz  loud  -0.9 dB
+h remix 2            rms 0.0251  peak 0.087  bright  299 Hz  loud  -1.0 dB
+h remix 3            rms 0.0258  peak 0.088  bright  324 Hz  loud  -0.4 dB
+h remix 4            rms 0.0253  peak 0.088  bright  289 Hz  loud  -1.1 dB
+h remix 5            rms 0.0262  peak 0.085  bright  286 Hz  loud  -0.8 dB
+h remix 6            rms 0.0257  peak 0.091  bright  307 Hz  loud  -0.7 dB
+h remix 7            rms 0.0256  peak 0.087  bright  324 Hz  loud  -0.5 dB
+h remix 8            rms 0.0259  peak 0.090  bright  300 Hz  loud  -0.7 dB
+h remix 9            rms 0.0263  peak 0.092  bright  328 Hz  loud  -0.2 dB
+h remix 10           rms 0.0258  peak 0.082  bright  316 Hz  loud  -0.5 dB
+h remix 11           rms 0.0253  peak 0.085  bright  366 Hz  loud  -0.1 dB
+h remix 12           rms 0.0251  peak 0.086  bright  301 Hz  loud  -1.0 dB
+r default            rms 0.0223  peak 0.084  bright  295 Hz  loud  -2.1 dB
+r min 1:1 d1 p1      rms 0.0239  peak 0.088  bright  333 Hz  loud  -1.0 dB
+r max 8:8 d24 p6     rms 0.0220  peak 0.083  bright  414 Hz  loud  -0.7 dB
+r 1:8 d24 p6         rms 0.0220  peak 0.083  bright  414 Hz  loud  -0.7 dB
+r 8:1 d24 p6         rms 0.0220  peak 0.083  bright  414 Hz  loud  -0.7 dB
+r 7:8 d24 p6         rms 0.0220  peak 0.085  bright  386 Hz  loud  -1.0 dB
+r 7:8 d1 p1          rms 0.0237  peak 0.087  bright  311 Hz  loud  -1.3 dB
+r palette 1          rms 0.0223  peak 0.084  bright  295 Hz  loud  -2.1 dB
+r palette 2          rms 0.0224  peak 0.084  bright  306 Hz  loud  -1.9 dB
+r palette 3          rms 0.0224  peak 0.085  bright  318 Hz  loud  -1.7 dB
+r palette 4          rms 0.0224  peak 0.085  bright  331 Hz  loud  -1.6 dB
+r palette 5          rms 0.0225  peak 0.083  bright  345 Hz  loud  -1.4 dB
+r palette 6          rms 0.0225  peak 0.084  bright  359 Hz  loud  -1.2 dB
+r remix 1            rms 0.0227  peak 0.079  bright  309 Hz  loud  -1.7 dB
+r remix 2            rms 0.0221  peak 0.085  bright  319 Hz  loud  -1.8 dB
+r remix 3            rms 0.0228  peak 0.084  bright  344 Hz  loud  -1.3 dB
+r remix 4            rms 0.0223  peak 0.084  bright  307 Hz  loud  -1.9 dB
+r remix 5            rms 0.0231  peak 0.082  bright  300 Hz  loud  -1.7 dB
+r remix 6            rms 0.0227  peak 0.086  bright  325 Hz  loud  -1.5 dB
+r remix 7            rms 0.0226  peak 0.086  bright  344 Hz  loud  -1.3 dB
+r remix 8            rms 0.0229  peak 0.086  bright  317 Hz  loud  -1.6 dB
+r remix 9            rms 0.0233  peak 0.088  bright  349 Hz  loud  -1.0 dB
+r remix 10           rms 0.0228  peak 0.075  bright  329 Hz  loud  -1.4 dB
+r remix 11           rms 0.0224  peak 0.082  bright  396 Hz  loud  -0.8 dB
+r remix 12           rms 0.0222  peak 0.084  bright  318 Hz  loud  -1.8 dB
+LOUDNESS SPREAD across all 50 recipes: 2.1 dB; max peak 0.096; brightest 414 Hz
+REMIX step-to-step loudness change: max +0.7 dB, max -1.0 dB
+ERRORS none

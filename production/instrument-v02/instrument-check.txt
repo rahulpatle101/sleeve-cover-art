@@ -1,0 +1,19 @@
+PASS  tab order: Artist → Track → Form → Rhythm → Registration → Passes → Engine → Press set → New Proof → Sound → Print — Artist > Track > Form > Rhythm > Registration > Passes > Harmonic, Lissajous > Newsprint > New Proof > Sound > Print Sleeve > Artist
+PASS  Form: Arrow / Shift(±2) / Home / End on the native range; Analog dial follows — 3→4→6, End 8, Home 1, visual 1
+PASS  Rhythm: Arrow / Shift(±2) / Home / End on the native range; Analog dial follows — 4→5→7, End 8, Home 1, visual 1
+PASS  Registration: Arrow / Shift(±15) / Home / End on the native range; Analog dial follows — 45→46→61, End 360, Home 0, visual 0
+PASS  Passes: Arrow / Shift(±4) / Home / End on the native range; Analog dial follows — 10→11→15, End 24, Home 1, visual 1
+PASS  pointer drag on the Analog dial changes the value and keeps keyboard focus on the native slider — 45→133, focused true
+PASS  artist field updates the real recipe and cover label
+PASS  engine: arrow keys switch the native radio; rocker follows
+PASS  Press set: arrow keys cycle all six sets and wrap; cover label follows — 123450
+PASS  New Proof remixes the real recipe (seed line changes)
+PASS  Print Sleeve: Enter prints a 3000×3000 PNG, announces politely, keeps focus — sleeve-mira-okafor-phase-garden-radial-7bf706a0.png 3000×3000 · "Sleeve printed — 3000 × 3000 PNG.sleeve-mira-okafor-phase-ga"
+AX: status:"" | button:"New Proof" | button:"Sound" pressed=false | button:"Print Sleeve" | slider:"Form" vt=6 | slider:"Rhythm" vt=5 | slider:"Registration" vt=60 | slider:"Passes" vt=6 | radio:"Newsprint" | radio:"Carbon" | radio:"Spectrum" | radio:"Horizon" | radio:"Full Sheet" | radio:"Macro Relief" | radio:"Harmonic, Lissajous" | radio:"Radial, Rose"
+PASS  VoiceOver-relevant tree: 4 named sliders, 8 named radios (engine + press set), no Analog spinbuttons exposed
+PASS  buttons are named New Proof / Sound / Print Sleeve (no duplicated labels) — button:"New Proof" · button:"Sound" pressed=false · button:"Print Sleeve"
+PASS  1440px: every target ≥ 44 × 44 and no horizontal scroll — {"sw":1440,"small":[]}
+PASS  390px: every target ≥ 44 × 44 and no horizontal scroll — {"sw":390,"small":[]}
+PASS  reduced motion honoured
+
+16 PASS, 0 FAIL ERRORS none

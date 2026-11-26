@@ -1,0 +1,25 @@
+/* Layout for the dev-only library page. Uses the same tokens as the app. */
+.lib { max-width: 1200px; margin: 0 auto; padding: var(--space-5) var(--space-4) 120px; }
+.lib-head { display: grid; gap: var(--space-2); padding-bottom: var(--space-5); border-bottom: var(--rule) solid var(--text-primary); margin-bottom: var(--space-5); }
+.lib-head h1 { margin: 0; font-size: 24px; letter-spacing: 0.2em; }
+.lib-head p { margin: 0; color: var(--text-secondary); max-width: 80ch; }
+.lib-nav { display: flex; flex-wrap: wrap; gap: var(--space-3); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; }
+.lib-nav a { color: var(--text-primary); }
+.lib-section { margin: 0 0 56px; scroll-margin-top: var(--space-4); }
+.lib-section > h2 { font-size: 13px; letter-spacing: var(--tracking-label); text-transform: uppercase; margin: 0 0 var(--space-2); }
+.lib-section > p.lib-src { margin: 0 0 var(--space-4); font: 12px/1.4 var(--font-mono); color: var(--text-secondary); }
+.lib-grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.lib-grid.wide { grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); }
+.lib-card { border-top: var(--rule) solid var(--text-primary); padding-top: var(--space-2); min-width: 0; }
+.lib-card > .lib-label { display: block; margin-bottom: var(--space-3); font: 11px/1.4 var(--font-mono); letter-spacing: 0.06em; color: var(--text-secondary); }
+.lib-token { display: grid; grid-template-columns: 44px 1fr; gap: var(--space-3); align-items: center; padding: var(--space-2) 0; border-bottom: 1px solid rgba(20, 20, 22, 0.08); }
+.lib-chip { width: 44px; height: 44px; outline: 1px solid rgba(20, 20, 22, 0.15); outline-offset: -1px; }
+.lib-token code { font: 12px/1.35 var(--font-mono); overflow-wrap: anywhere; }
+.lib-token small { display: block; color: var(--text-secondary); font: 11px/1.35 var(--font-mono); }
+.lib-shadow { width: 44px; height: 44px; background: var(--surface-ivory); }
+.lib-space { height: 14px; background: var(--text-primary); }
+.lib-type-row { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-4); align-items: baseline; padding: var(--space-3) 0; border-bottom: 1px solid rgba(20, 20, 22, 0.08); }
+.lib-type-row code { font: 11px/1.4 var(--font-mono); color: var(--text-secondary); }
+.lib-cover-type { padding: var(--space-4); background: var(--chassis-bg); color: var(--chassis-ink); overflow: hidden; }
+.lib-static .action-bar { position: static; }
+.lib-panel { container-type: inline-size; max-width: 560px; }

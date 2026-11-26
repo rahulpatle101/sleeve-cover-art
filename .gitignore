@@ -1,0 +1,33 @@
+# --- dependencies / build output ---
+node_modules/
+dist/
+*.tsbuildinfo
+
+# --- never publish: proprietary SkillUI raw extraction (brand webfonts, screenshots), third-party reference images ---
+research/extracted/
+references/
+
+# --- local evidence, exports and binaries (kept on the author's machine; docs are committed) ---
+release/
+screens/
+studies/
+production/**/*.png
+production/**/*.jpg
+production/**/*.jpeg
+production/**/*.webp
+production/**/*.gif
+production/**/*.mp4
+production/**/*.webm
+production/**/*.woff
+production/**/*.woff2
+production/**/*.ttf
+production/**/*.otf
+production/**/exports/
+production/**/fonts/
+
+# --- test browser profiles / downloads, OS and env files ---
+**/.chrome*/
+**/.dl/
+.DS_Store
+.env
+.env.*

@@ -1,0 +1,49 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=360"><style>
+/* STATIC STUDY — v0.2 compact mobile panel (360 × 780 viewport). Not app code. */
+:root{--shell:#ECEBE7;--chassis:#F4F3EF;--ink:#141416;--mute:#5A5A60;--rule:#CFCDC6;--tick:#8A8A90;--lamp:#E2462A;--lampoff:#D9D6CE}
+*{box-sizing:border-box}body{margin:0;background:var(--shell);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;height:780px;overflow:hidden;position:relative}
+.mast{display:flex;align-items:baseline;justify-content:space-between;padding:12px 14px 8px}.mast b{letter-spacing:.2em;font-size:14px}.mast span{font:500 10px ui-monospace,Menlo,monospace;letter-spacing:.1em;color:var(--mute)}
+.cover{display:block;width:304px;height:304px;margin:0 auto;box-shadow:0 12px 24px -14px rgba(0,0,0,.5)}
+.label{display:flex;justify-content:space-between;width:304px;margin:8px auto 0;font-size:13px}.label span:first-child{font-weight:300;font-size:15px}.label span:last-child{font:600 10px "Helvetica Neue";letter-spacing:.16em;color:var(--mute);align-self:center}
+.chassis{background:var(--chassis);border-top:1px solid var(--ink);margin-top:10px;padding:10px 14px 0}
+.reg{display:grid;grid-template-columns:168px 1fr;gap:10px;align-items:center}
+.scale{position:relative;width:168px;height:168px}.scale svg{position:absolute;inset:0}
+.wheel{position:absolute;left:50%;top:50%;width:112px;height:112px;margin:-56px 0 0 -56px;border-radius:50%;background:radial-gradient(circle at 50% 32%,#FBFAF7 0 34%,#E9E6DF 66%,#D3D0C8);box-shadow:0 2px 0 #BDB9B0,0 10px 18px -10px rgba(0,0,0,.45),inset 0 0 0 1px #B7B3AA}
+.wheel .ptr{position:absolute;left:50%;top:8px;width:3px;height:30px;margin-left:-1.5px;background:var(--ink);border-radius:2px;transform-origin:50% 48px;transform:rotate(45deg)}
+.ro b{display:block;font:300 34px/1 "Helvetica Neue";font-variant-numeric:tabular-nums}.ro small{display:block;font:600 9.5px "Helvetica Neue";letter-spacing:.15em;color:var(--mute);margin-top:4px}
+.lamp{display:flex;align-items:center;gap:6px;margin-top:10px;font:600 9.5px "Helvetica Neue";letter-spacing:.15em;color:var(--mute)}.lamp i{width:8px;height:8px;border-radius:50%;background:var(--lampoff)}
+.pair{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:6px 8px;align-items:center;border-top:1px solid var(--rule);padding:8px 0}
+.k{width:44px;height:44px;border-radius:50%;position:relative;background:radial-gradient(circle at 50% 35%,#FBFAF7 0 36%,#E6E3DC 64%,#CFCCC4);box-shadow:0 2px 0 #BBB8AF,inset 0 0 0 1px #B4B1A8}
+.k .ptr{position:absolute;left:50%;top:5px;width:2.5px;height:14px;margin-left:-1.25px;background:var(--ink);transform-origin:50% 17px;border-radius:2px}
+.v b{font:300 22px/1 "Helvetica Neue"}.v small{display:block;font:600 9.5px "Helvetica Neue";letter-spacing:.15em;color:var(--mute)}
+.ps{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;border-top:1px solid var(--rule);padding:8px 0}
+.seg{display:flex;gap:2px;height:14px}.seg i{flex:1;border:1px solid var(--tick)}.seg i.on{background:var(--ink);border-color:var(--ink)}
+.h{font:600 9.5px "Helvetica Neue";letter-spacing:.16em}.n{font:300 22px/1 "Helvetica Neue"}
+.mats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid var(--rule);padding:8px 0 90px}
+.mats small{display:block;font:600 9px "Helvetica Neue";letter-spacing:.16em;margin-bottom:5px}.sw{display:grid;grid-template-columns:1fr 1fr;gap:4px}.s{height:44px;border:1px solid rgba(0,0,0,.18)}.s.on{outline:2px solid var(--ink);outline-offset:2px}
+.bar{position:absolute;left:0;right:0;bottom:0;background:rgba(236,235,231,.97);border-top:1px solid var(--ink);padding:8px 14px 12px;display:grid;grid-template-columns:1.1fr 0.9fr 1.3fr;gap:8px}
+.btn{height:46px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px}.btn.print{background:var(--ink);color:#F4F3EF;letter-spacing:.14em}
+.btn.mon{font-size:13px}
+</style></head><body>
+<div class="mast"><b>SLEEVE</b><span>PLATE 01352905 · LIGHT 04</span></div>
+<img class="cover" src="study-cover-light.png">
+<div class="label"><span>Mira Okafor</span><span>TIDEWATER</span></div>
+<div class="chassis">
+ <div class="reg"><div class="scale"><svg viewBox="0 0 168 168" id="sc"></svg><div class="wheel"><span class="ptr"></span></div></div>
+  <div class="ro"><b>045°</b><small>REGISTRATION</small><small>OFF 0.9 % · DRAG SIDEWAYS</small><span class="lamp"><i></i>IN REGISTER</span></div></div>
+ <div class="pair"><div class="k"><span class="ptr" style="transform:rotate(-55deg)"></span></div><div class="v"><b>3</b><small>FORM</small></div>
+  <div class="k"><span class="ptr" style="transform:rotate(-15deg)"></span></div><div class="v"><b>4</b><small>RHYTHM · 3:4</small></div></div>
+ <div class="ps"><span class="h">PASSES</span><div class="seg" id="seg"></div><span class="n">10</span></div>
+ <div class="mats">
+  <div><small>INK</small><div class="sw"><div class="s" style="background:#ECE5D6"></div><div class="s" style="background:#18181A"></div></div></div>
+  <div><small>LIGHT</small><div class="sw"><div class="s" style="background:linear-gradient(90deg,#3E6BFF,#C04BFF 40%,#FF9E3D 75%,#FFE07A)"></div><div class="s on" style="background:linear-gradient(#0E1D4A 0 60%,#F6C36A 60% 64%,#0B1330 64%)"></div></div></div>
+  <div><small>MATTER</small><div class="sw"><div class="s" style="background:radial-gradient(circle at 40% 35%,#3D66D8,#0E1E5A)"></div><div class="s" style="background:linear-gradient(115deg,#2A2B2F,#C9CCD2 45%,#3A3C41 60%,#8E929A)"></div></div></div>
+ </div>
+</div>
+<div class="bar"><div class="btn">↻ New proof</div><div class="btn mon">○ Sound</div><div class="btn print">PRINT</div></div>
+<script>
+const sc = document.getElementById('sc'), C = 84, NS = 'http://www.w3.org/2000/svg'; const add = (t, a) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); sc.appendChild(e); return e; };
+for (let d = 0; d < 360; d += 10) { const big = d % 90 === 0, r1 = big ? 68 : 72, r2 = 78, a = (d - 90) * Math.PI / 180; add('line', { x1: C + r1 * Math.cos(a), y1: C + r1 * Math.sin(a), x2: C + r2 * Math.cos(a), y2: C + r2 * Math.sin(a), stroke: big ? '#141416' : '#8A8A90', 'stroke-width': big ? 1.5 : 1 }); }
+for (const d of [0, 90, 180, 270]) { const a = (d - 90) * Math.PI / 180; add('circle', { cx: C + 82 * Math.cos(a), cy: C + 82 * Math.sin(a), r: 2.2, fill: '#E2462A' }); }
+const seg = document.getElementById('seg'); for (let i = 1; i <= 24; i++) { const e = document.createElement('i'); if (i <= 10) e.className = 'on'; seg.appendChild(e); }
+</script></body></html>

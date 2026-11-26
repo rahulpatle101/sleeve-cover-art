@@ -1,0 +1,152 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { DEFAULT_RECIPE, validateRecipe, type ArtworkRecipeV1, type NumericKey } from '../instrument/recipe.ts';
+import { remix } from '../instrument/remix.ts';
+import { ArtworkStage } from '../artwork/ArtworkStage.tsx';
+import { PALETTES, FAMILY_LABEL } from '../artwork/palettes.ts';
+import { exportPng, EXPORT_SIZE } from '../export/exportPng.ts';
+import { AudioEngine } from '../audio/audioEngine.ts';
+import { SectionHead, ChassisField, EngineSelector, RatioModule, RegistrationWheel, IN_REGISTER, PassesModule, PressSetPicker, ActionBar } from '../ui/index.ts';
+
+export function App() {
+  const [recipe, setRecipe] = useState<ArtworkRecipeV1>(DEFAULT_RECIPE);
+  const [status, setStatus] = useState('');
+  const [statusFile, setStatusFile] = useState(''); // exported filename, shown on its own quiet line
+  const [exporting, setExporting] = useState(false);
+  const exportingRef = useRef(false);
+  const [exported, setExported] = useState(false); // brief, non-blocking completion state
+  const exportedTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(exportedTimer.current), []);
+  const [soundOn, setSoundOn] = useState(false);
+  const audio = useRef<AudioEngine | null>(null);
+
+  const update = useCallback((patch: Partial<ArtworkRecipeV1>) => {
+    setRecipe((r) => validateRecipe({ ...r, ...patch }));
+  }, []);
+
+  const setNum = (k: NumericKey) => (v: number) => update({ [k]: v });
+
+  // Audio feedback follows recipe changes, only when explicitly enabled.
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (soundOn) audio.current?.pluck(recipe);
+  }, [recipe, soundOn]);
+
+  useEffect(() => () => void audio.current?.disable(), []);
+
+  const toggleSound = async () => {
+    if (soundOn) {
+      setSoundOn(false);
+      await audio.current?.disable();
+      audio.current = null;
+      return;
+    }
+    try {
+      audio.current = new AudioEngine();
+      await audio.current.enable();
+      setSoundOn(true);
+      audio.current.pluck(recipe);
+    } catch {
+      audio.current = null;
+      setStatus('Sound isn’t available here. The visual instrument still works.');
+    }
+  };
+
+  const onExport = async () => {
+    if (exportingRef.current) return; // aria-disabled guard: the button keeps focus instead of dropping it
+    exportingRef.current = true;
+    setExporting(true);
+    setExported(false);
+    clearTimeout(exportedTimer.current);
+    setStatus(`Rendering ${EXPORT_SIZE} × ${EXPORT_SIZE} artwork…`);
+    setStatusFile('');
+    try {
+      const name = await exportPng(recipe);
+      if (soundOn) audio.current?.chime(recipe);
+      const unnamed = !recipe.artist.trim() || !recipe.track.trim();
+      setStatus(
+        `Sleeve printed — ${EXPORT_SIZE} × ${EXPORT_SIZE} PNG.` +
+          (unnamed ? ' Add an artist and track name to finish the sleeve.' : ''),
+      );
+      setStatusFile(name);
+      setExported(true);
+      exportedTimer.current = setTimeout(() => setExported(false), 2400);
+    } catch {
+      setStatus('The sleeve couldn’t be printed. Your composition is safe; try again.');
+    } finally {
+      exportingRef.current = false;
+      setExporting(false);
+    }
+  };
+
+  const pal = PALETTES[recipe.palette];
+  const modeName = recipe.mode === 'radial' ? 'Radial' : 'Harmonic';
+  const inRegister = IN_REGISTER.includes(recipe.phase);
+  const family = FAMILY_LABEL[pal.family].toLowerCase();
+  const seedHex = recipe.seed.toString(16).padStart(8, '0');
+  const stageLabel =
+    `Album cover preview. ${modeName} engine, ratio ${recipe.form} to ${recipe.rhythm}, registration ${recipe.phase} degrees ${inRegister ? 'in register' : 'off register'}, ` +
+    `${recipe.density} passes, ${family} ${pal.name} press set. Artist: ${recipe.artist.trim() || 'none'}. Track: ${recipe.track.trim() || 'none'}.`;
+
+  return (
+    <div className="app" data-mode={recipe.mode}>
+      <header className="masthead">
+        <h1 className="wordmark">SLEEVE</h1>
+        <p className="tagline">Play your next album cover.</p>
+        <p className="press-line">
+          PRESS {String(pal.index).padStart(2, '0')} · {pal.name.toUpperCase()} · SEED <span className="seed">{seedHex}</span>
+        </p>
+      </header>
+
+      <main className="layout">
+        <section className="chassis" aria-label="Cover">
+          <span className="crosshair tl" aria-hidden="true" />
+          <span className="crosshair tr" aria-hidden="true" />
+          <span className="crosshair bl" aria-hidden="true" />
+          <span className="crosshair br" aria-hidden="true" />
+          <ArtworkStage recipe={recipe} label={stageLabel} />
+          <div className="identity" role="group" aria-label="Artist and track">
+            <ChassisField id="artist" label="Artist · sleeve label" ariaLabel="Artist" value={recipe.artist} placeholder="Artist name" onChange={(v) => update({ artist: v })} />
+            <ChassisField id="track" label="Track" ariaLabel="Track" value={recipe.track} placeholder="Track title" onChange={(v) => update({ track: v })} />
+          </div>
+        </section>
+
+        <section className="panel" aria-labelledby="panel-title">
+          <h2 id="panel-title" className="visually-hidden">Instrument</h2>
+
+          <fieldset className="sec sec-engine" aria-label="Engine">
+            <legend><SectionHead n={1} alias="plate">Engine</SectionHead></legend>
+            <EngineSelector value={recipe.mode} onChange={(m) => update({ mode: m })} />
+          </fieldset>
+
+          <div className="sec sec-ratio" role="group" aria-label="Ratio, Form to Rhythm" aria-describedby="ratio-read">
+            <SectionHead n={2} alias="form : rhythm">Ratio</SectionHead>
+            <RatioModule form={recipe.form} rhythm={recipe.rhythm} onForm={setNum('form')} onRhythm={setNum('rhythm')} />
+          </div>
+
+          <div className="sec sec-registration">
+            <SectionHead n={3} alias="phase · signature control">Registration</SectionHead>
+            <RegistrationWheel phase={recipe.phase} onChange={setNum('phase')} />
+          </div>
+
+          <div className="sec sec-passes">
+            <SectionHead n={4} alias="density">Passes</SectionHead>
+            <PassesModule value={recipe.density} family={pal.family} onChange={setNum('density')} />
+          </div>
+          <p className="hint" id="dial-hint">Drag a knob up or sideways (Shift for fine). Keys: Arrows, Page Up/Down, Home/End.</p>
+
+          <fieldset className="sec sec-press" aria-label="Press set">
+            <legend><SectionHead n={5} alias="paper + two channels">Press set</SectionHead></legend>
+            <PressSetPicker value={recipe.palette} onChange={(v) => update({ palette: v })} />
+          </fieldset>
+        </section>
+
+        <ActionBar status={status} statusFile={statusFile} soundOn={soundOn} exporting={exporting} exported={exported}
+          onNewProof={() => setRecipe(remix(recipe))} onSound={toggleSound} onPrint={onExport} />
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,12 @@
+01-harmonic-p0   differing pixels         0 of 9,000,000
+02-harmonic-p1   differing pixels         1 of 9,000,000 box x188-188 y2291-2291 max 26
+03-harmonic-p2   differing pixels         0 of 9,000,000
+04-harmonic-p3   differing pixels         0 of 9,000,000
+05-harmonic-p4   differing pixels         0 of 9,000,000
+06-harmonic-p5   differing pixels   7870949 of 9,000,000 box x0-2999 y0-2999 max 156
+07-radial-p0     differing pixels         4 of 9,000,000 box x250-1907 y255-1142 max 211
+08-radial-p1     differing pixels         0 of 9,000,000
+09-radial-p2     differing pixels         0 of 9,000,000
+10-radial-p3     differing pixels         0 of 9,000,000
+11-radial-p4     differing pixels       192 of 9,000,000 box x498-1243 y2804-2805 max 1
+12-radial-p5     differing pixels        30 of 9,000,000 box x744-1087 y2639-2802 max 1
