@@ -4,9 +4,10 @@ import { renderArtLayer, renderTypeLayer } from './renderArtwork.ts';
 import { ensureFonts } from './fonts.ts';
 
 const MAX_DPR = 2;
-const FADE_MS = 240; // engine / Remix change
+const FADE_MS = 240; // engine / New Proof change
 const FADE_INTERRUPTED_MS = 140; // a change arriving mid-fade resolves faster, so rapid input never muddies
 const SETTLE_MS = 160; // idle time after the last tuning change before the full material is rendered
+const SETTLE_FADE_MS = 150; // draft → full material: the print "develops" instead of popping in
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
@@ -20,9 +21,10 @@ const makeCanvas = (px: number) => {
 /**
  * Preview stage.
  * - Tuning (any rotary, text, palette): a simplified DRAFT art layer is drawn immediately; the FULL material is
- *   rendered once input has been idle for SETTLE_MS and no pointer is held (i.e. after release).
- * - Discrete changes (engine, Remix): the FULL art layer is rendered first, then ONLY the art layer crossfades from
- *   what is on screen. Type is always drawn crisply for the current recipe. Reduced motion: cut.
+ *   rendered once input has been idle for SETTLE_MS and no dial drag is held, then crossfades in over SETTLE_FADE_MS.
+ * - Discrete changes (engine, New Proof): the FULL cover is rendered, and the WHOLE frame (art and type together)
+ *   crossfades from exactly what is on screen, so the old artwork never carries the new title. An interrupting change
+ *   snapshots the mid-fade frame and restarts from it. Reduced motion: cut.
  * - Settled frames equal renderArtwork(…, 'full') exactly. `data-settled="true"` marks that state (used by tests).
  */
 export function ArtworkStage({ recipe, label }: { recipe: ArtworkRecipeV1; label: string }) {
@@ -30,16 +32,14 @@ export function ArtworkStage({ recipe, label }: { recipe: ArtworkRecipeV1; label
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const artRef = useRef<HTMLCanvasElement | null>(null); // current recipe's art layer
   const artFull = useRef(false); // is artRef the full render of recipeRef?
-  const scratchRef = useRef<HTMLCanvasElement | null>(null); // used only when a fade is interrupted
-  const fromRef = useRef<HTMLCanvasElement | null>(null); // art snapshot fading out
+  const fromRef = useRef<HTMLCanvasElement | null>(null); // snapshot of the displayed frame, fading out
+  const fromActive = useRef(false);
   const fadeRef = useRef<{ raf: number } | null>(null);
-  const alphaRef = useRef(0); // current opacity of the fading snapshot
   const recipeRef = useRef(recipe);
   const prevKey = useRef('');
   const settleRef = useRef<number | null>(null);
   const pointerDown = useRef(false);
   const pendingFull = useRef(false);
-  const composeRef = useRef<(a: number) => void>(() => {});
   const [css, setCss] = useState(0);
   const [fontsReady, setFontsReady] = useState(false);
 
@@ -64,24 +64,69 @@ export function ArtworkStage({ recipe, label }: { recipe: ArtworkRecipeV1; label
     if (c) c.dataset.settled = artFull.current && !fadeRef.current ? 'true' : 'false';
   };
 
+  /** Current art + crisp type, with the outgoing frame on top at `fromAlpha`. */
+  const compose = (fromAlpha: number) => {
+    const c = canvasRef.current, art = artRef.current;
+    if (!c || !art) return;
+    const ctx = c.getContext('2d')!;
+    ctx.globalAlpha = 1;
+    ctx.drawImage(art, 0, 0);
+    renderTypeLayer(ctx, recipeRef.current, c.width, c.height);
+    if (fromActive.current && fromRef.current && fromAlpha > 0) {
+      ctx.globalAlpha = fromAlpha;
+      ctx.drawImage(fromRef.current, 0, 0);
+      ctx.globalAlpha = 1;
+    }
+  };
+
+  /** Snapshot what is on screen right now (mid-fade included) and fade it out over the new frame. */
+  const snapshot = () => {
+    const c = canvasRef.current, from = fromRef.current;
+    if (!c || !from) return false;
+    const fx = from.getContext('2d')!;
+    fx.globalAlpha = 1;
+    fx.drawImage(c, 0, 0);
+    return true;
+  };
+  const fade = (duration: number) => {
+    if (fadeRef.current) cancelAnimationFrame(fadeRef.current.raf);
+    fromActive.current = true;
+    const start = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      compose(1 - easeOut(t));
+      if (t < 1) fadeRef.current = { raf: requestAnimationFrame(step) };
+      else {
+        fadeRef.current = null;
+        fromActive.current = false;
+        markSettled();
+      }
+    };
+    compose(1);
+    fadeRef.current = { raf: requestAnimationFrame(step) };
+  };
+
   const renderFull = () => {
     settleRef.current = null;
     if (pointerDown.current) {
-      pendingFull.current = true; // still dragging: wait for release
+      pendingFull.current = true; // still dragging a dial: wait for release
       return;
     }
     pendingFull.current = false;
     const art = artRef.current;
     if (!art || artFull.current) return;
+    const animate = !fadeRef.current && !reducedMotion() && snapshot(); // a running fade picks it up on its next frame
     renderArtLayer(art.getContext('2d')!, recipeRef.current, art.width, art.height, 'full');
     artFull.current = true;
-    if (!fadeRef.current) composeRef.current(0); // a running fade picks it up on its next frame
+    if (animate) fade(SETTLE_FADE_MS);
+    else if (!fadeRef.current) compose(0);
     markSettled();
   };
 
   useEffect(() => {
-    const down = () => {
-      pointerDown.current = true;
+    // Only a held dial drag defers the full render; pressing a button or a tile elsewhere does not.
+    const down = (e: PointerEvent) => {
+      if ((e.target as Element | null)?.closest?.('[data-drag-surface]')) pointerDown.current = true;
     };
     const up = () => {
       pointerDown.current = false;
@@ -106,41 +151,22 @@ export function ArtworkStage({ recipe, label }: { recipe: ArtworkRecipeV1; label
       const resized = canvas.width !== px;
       const initial = prevKey.current === '';
       if (resized) {
+        if (fadeRef.current) cancelAnimationFrame(fadeRef.current.raf);
+        fadeRef.current = null;
+        fromActive.current = false;
         canvas.width = px;
         canvas.height = px;
         artRef.current = makeCanvas(px);
-        scratchRef.current = makeCanvas(px);
-        fromRef.current = null;
+        fromRef.current = makeCanvas(px);
       }
-      const ctx = canvas.getContext('2d');
       const art = artRef.current!;
-      if (!ctx) return;
 
       const key = `${recipe.mode}:${recipe.seed}`;
       const discrete = !initial && prevKey.current !== key;
-      const animate = discrete && !resized && !reducedMotion();
       prevKey.current = key;
-      const interrupted = animate && fadeRef.current !== null;
-
-      if (animate) {
-        // Snapshot the art layer exactly as displayed right now (restart, never queue).
-        if (interrupted && fromRef.current) {
-          const scratch = scratchRef.current!;
-          const sx = scratch.getContext('2d')!;
-          sx.globalAlpha = 1;
-          sx.drawImage(art, 0, 0);
-          sx.globalAlpha = alphaRef.current;
-          sx.drawImage(fromRef.current, 0, 0);
-          sx.globalAlpha = 1;
-          scratchRef.current = fromRef.current; // swap buffers, no extra allocation
-          fromRef.current = scratch;
-        } else {
-          const from = (fromRef.current ??= makeCanvas(px));
-          const fx = from.getContext('2d')!;
-          fx.globalAlpha = 1;
-          fx.drawImage(art, 0, 0);
-        }
-      }
+      const interrupted = fadeRef.current !== null;
+      // Snapshot before the art layer changes: the canvas still shows exactly the previous frame.
+      const animate = discrete && !resized && !reducedMotion() && snapshot();
 
       // Discrete changes, first paint and resizes render the full material now; tuning draws a draft.
       const quality = discrete || initial || resized ? 'full' : 'draft';
@@ -150,42 +176,8 @@ export function ArtworkStage({ recipe, label }: { recipe: ArtworkRecipeV1; label
       artFull.current = quality === 'full';
       if (!artFull.current) settleRef.current = window.setTimeout(renderFull, SETTLE_MS);
 
-      // Per frame: two blits straight onto the stage, then crisp type.
-      const compose = (fromAlpha: number) => {
-        alphaRef.current = fromAlpha;
-        ctx.globalAlpha = 1;
-        ctx.drawImage(art, 0, 0);
-        if (fromRef.current && fromAlpha > 0) {
-          ctx.globalAlpha = fromAlpha;
-          ctx.drawImage(fromRef.current, 0, 0);
-          ctx.globalAlpha = 1;
-        }
-        renderTypeLayer(ctx, recipeRef.current, px, px);
-      };
-      composeRef.current = compose;
-
-      if (animate) {
-        if (fadeRef.current) cancelAnimationFrame(fadeRef.current.raf);
-        const duration = interrupted ? FADE_INTERRUPTED_MS : FADE_MS;
-        const start = performance.now();
-        const step = (now: number) => {
-          const t = Math.min(1, (now - start) / duration);
-          compose(1 - easeOut(t));
-          if (t < 1) fadeRef.current = { raf: requestAnimationFrame(step) };
-          else {
-            fadeRef.current = null;
-            fromRef.current = null;
-            markSettled();
-          }
-        };
-        compose(1);
-        fadeRef.current = { raf: requestAnimationFrame(step) };
-      } else if (fadeRef.current) {
-        // Tuning during a fade: the running fade composes the new art layer on its next frame.
-      } else {
-        fromRef.current = null;
-        compose(0);
-      }
+      if (animate) fade(interrupted ? FADE_INTERRUPTED_MS : FADE_MS);
+      else if (!fadeRef.current) compose(0); // tuning during a fade: the running fade composes the new art next frame
       markSettled();
     });
     return () => cancelAnimationFrame(raf);
